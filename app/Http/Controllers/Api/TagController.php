@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\TagRequest;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 
 class TagController extends ApiBaseController
 {
@@ -33,10 +33,10 @@ class TagController extends ApiBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param TagRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
         $tag = new Tag();
         $tag->name = $request->name;

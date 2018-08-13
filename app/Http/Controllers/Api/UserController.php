@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\TagRequest;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 
