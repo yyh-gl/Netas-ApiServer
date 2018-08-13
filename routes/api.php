@@ -17,7 +17,21 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
     return $request->user();
 });
 
-Route::namespace('api')->group(function () {
-    Route::get('/users', 'UserController@index');
-    Route::post('/users', 'UserController@store');
+/*
+|--------------------------------------------------------------------------
+| User Routes
+|--------------------------------------------------------------------------
+*/
+Route::namespace('Api')->group(function () {
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', 'UserController@index');
+        Route::get('/{user_id}', 'UserController@show');
+        Route::post('/', 'UserController@store');
+    });
+
+    Route::group(['prefix' => 'tags'], function () {
+        Route::get('/', 'TagController@index');
+        Route::get('/{id}', 'TagController@show');
+        Route::post('/', 'TagController@store');
+    });
 });

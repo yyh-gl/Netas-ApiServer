@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
-class UserController extends ApiBaseController
+class TagController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Database\Eloquent\Collection users
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $users = User::all();
+        $tags = Tag::all();
         return response()->json([
-            'users' => $users,
+            'tags' => $tags,
         ]);
     }
 
@@ -38,29 +38,26 @@ class UserController extends ApiBaseController
      */
     public function store(Request $request)
     {
-        $user = new User;
-        $user->user_id = $request->user_id;
-        $user->name = $request->name;
-        $user->avatar = $request->avatar;
-        $user->introduction = $request->introduction;
-        $user->password = $request->password;
-        $user->save();
+        $tag = new Tag();
+        $tag->name = $request->name;
+        $tag->followed_count = 0;
+        $tag->save();
         return response()->json([
-            'user' => $user,
+            'tag' => $tag,
         ], config('const_http.STATUS_CODE.created'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param $user_id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_id)
+    public function show($id)
     {
-        $user = User::where('user_id', $user_id)->firstOrFail();
+        $tag = Tag::getRecordById($id);
         return response()->json([
-            'user' => $user,
+            'tag' => $tag,
         ]);
     }
 
