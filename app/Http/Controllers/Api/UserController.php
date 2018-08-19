@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends ApiBaseController
 {
@@ -39,9 +38,6 @@ class UserController extends ApiBaseController
      */
     public function store(Request $request)
     {
-        Log::debug('api');
-        Log::debug($request);
-        Log::debug('api');
         $user = new User;
         $user->user_id = $request->user_id;
         $user->name = $request->name;
@@ -63,7 +59,12 @@ class UserController extends ApiBaseController
      */
     public function show($user_id)
     {
-        $user = User::where('user_id', $user_id)->firstOrFail();
+        try {
+            $user = User::where('user_id', $user_id)->firstOrFail();
+        } catch (\Exception $e) {
+            $user = NULL;
+        }
+
         return response()->json([
             'user' => $user,
         ]);
