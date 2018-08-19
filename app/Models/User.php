@@ -16,6 +16,7 @@ class User extends BaseAuthenticatable
     protected $fillable = [
         'user_id',
         'name',
+        'email',
         'avatar',
         'introduction',
         'password',

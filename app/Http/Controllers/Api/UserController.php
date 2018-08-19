@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\TagRequest;
-use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends ApiBaseController
 {
@@ -40,6 +39,9 @@ class UserController extends ApiBaseController
      */
     public function store(Request $request)
     {
+        Log::debug('api');
+        Log::debug($request);
+        Log::debug('api');
         $user = new User;
         $user->user_id = $request->user_id;
         $user->name = $request->name;
