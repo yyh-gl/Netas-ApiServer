@@ -43,6 +43,7 @@ class UserController extends ApiBaseController
         $user = new User;
         $user->user_id = $request->user_id;
         $user->name = $request->name;
+        $user->email = $request->email;
         $user->avatar = $request->avatar;
         $user->introduction = $request->introduction;
         $user->password = $request->password;
