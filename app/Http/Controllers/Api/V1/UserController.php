@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\ClientRepository;
 
 class UserController extends ApiBaseController
 {
@@ -39,6 +41,14 @@ class UserController extends ApiBaseController
      */
     public function store(UserRequest $request)
     {
+        $isAuthorized = $this->isAuthorizedClient($request->header('ClientId'), $request->header('ClientSecret'));
+        if (! $isAuthorized) {
+            // TODO: エラー処理をきれいに書き直す
+            return response()->json([
+                'user' => 'Not Authorized',
+            ], config('const_http.STATUS_CODE.unauthorized'));
+        }
+
         $user = new User;
         $user->user_id = $request->user_id;
         $user->name = $request->name;
@@ -104,4 +114,24 @@ class UserController extends ApiBaseController
     {
         //
     }
+
+    /**
+     * 認証済みのクライアントか判別
+     *
+     * @param  int $id
+     * @param $secretKey
+     * @return bool
+     */
+    private function isAuthorizedClient($id, $secretKey)
+    {
+        $clientClass = new ClientRepository();
+        $client = $clientClass->find($id);
+
+        if (! $client) {
+            return false;
+        } else if ($secretKey == $client->secret) {
+            return true;
+        }
+    }
+
 }
