@@ -23,15 +23,17 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 |--------------------------------------------------------------------------
 */
 Route::namespace('Api\V1')->group(function () {
-    Route::group(['prefix' => 'users'], function () {
-        Route::get('/', 'UserController@index');
-        Route::get('/{user_id}', 'UserController@show');
-        Route::post('/', 'UserController@store');
-    });
+    Route::group(['prefix' => 'v1'], function () {
+        Route::group(['prefix' => 'users'], function () {
+            Route::get('/', 'UserController@index');
+            Route::get('/{user_id}', 'UserController@show');
+            Route::post('/', 'UserController@store');
+        });
 
-    Route::group(['prefix' => 'tags'], function () {
-        Route::get('/', 'TagController@index');
-        Route::get('/{id}', 'TagController@show');
-        Route::post('/', 'TagController@store');
+        Route::group(['prefix' => 'tags'], function () {
+            Route::get('/', 'TagController@index');
+            Route::get('/{id}', 'TagController@show');
+            Route::post('/', 'TagController@store');
+        });
     });
 });
