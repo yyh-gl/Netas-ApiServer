@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'test@mikilab.doshisha.ac.jp',
             'avatar' => 'hogehoge',
             'introduction' => 'はじめまして',
+            // パスワード：secret
         ]);
     }
 }
