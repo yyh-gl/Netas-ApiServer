@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 | User Routes
 |--------------------------------------------------------------------------
 */
-Route::namespace('Api')->group(function () {
+Route::namespace('Api\V1')->group(function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', 'UserController@index');
         Route::get('/{user_id}', 'UserController@show');
