@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\TagRequest;
+use App\Models\Tag;
 
-class UserController extends ApiBaseController
+class TagController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Database\Eloquent\Collection users
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $users = User::all();
+        $tags = Tag::all();
         return response()->json([
-            'users' => $users,
+            'tags' => $tags,
         ]);
     }
 
@@ -33,40 +33,31 @@ class UserController extends ApiBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param TagRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
-        $user = new User;
-        $user->user_id = $request->user_id;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->avatar = $request->avatar;
-        $user->introduction = $request->introduction;
-        $user->password = $request->password;
-        $user->save();
+        $tag = new Tag();
+        $tag->name = $request->name;
+        $tag->followed_count = 0;
+        $tag->save();
         return response()->json([
-            'user' => $user,
+            'tag' => $tag,
         ], config('const_http.STATUS_CODE.created'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param $user_id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_id)
+    public function show($id)
     {
-        try {
-            $user = User::where('user_id', $user_id)->firstOrFail();
-        } catch (\Exception $e) {
-            $user = NULL;
-        }
-
+        $tag = Tag::getRecordById($id);
         return response()->json([
-            'user' => $user,
+            'tag' => $tag,
         ]);
     }
 

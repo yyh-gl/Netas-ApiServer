@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Requests\TagRequest;
-use App\Models\Tag;
+use App\Models\User;
+use Illuminate\Http\Request;
 
-class TagController extends ApiBaseController
+class UserController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Collection users
      */
     public function index()
     {
-        $tags = Tag::all();
+        $users = User::all();
         return response()->json([
-            'tags' => $tags,
+            'users' => $users,
         ]);
     }
 
@@ -33,31 +33,40 @@ class TagController extends ApiBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param TagRequest $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TagRequest $request)
+    public function store(Request $request)
     {
-        $tag = new Tag();
-        $tag->name = $request->name;
-        $tag->followed_count = 0;
-        $tag->save();
+        $user = new User;
+        $user->user_id = $request->user_id;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->avatar = $request->avatar;
+        $user->introduction = $request->introduction;
+        $user->password = $request->password;
+        $user->save();
         return response()->json([
-            'tag' => $tag,
+            'user' => $user,
         ], config('const_http.STATUS_CODE.created'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param $user_id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user_id)
     {
-        $tag = Tag::getRecordById($id);
+        try {
+            $user = User::where('user_id', $user_id)->firstOrFail();
+        } catch (\Exception $e) {
+            $user = NULL;
+        }
+
         return response()->json([
-            'tag' => $tag,
+            'user' => $user,
         ]);
     }
 
