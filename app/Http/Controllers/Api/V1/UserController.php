@@ -44,7 +44,7 @@ class UserController extends ApiBaseController
         $user->email = $request->email;
         $user->avatar = $request->avatar;
         $user->introduction = $request->introduction;
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
         $user->save();
         return response()->json([
             'user' => $user,

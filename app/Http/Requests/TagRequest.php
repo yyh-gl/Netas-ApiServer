@@ -26,7 +26,7 @@ class TagRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|unique:tags,name',
+            'name' => 'required|max:200|unique:tags,name',
         ];
     }
 
@@ -38,7 +38,7 @@ class TagRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'タグ名を入力してください。',
+            'name.required' => 'タグ名が未入力です。',
             'name.max'  => 'タグ名は200文字までです。',
             'name.unique'  => '既に存在するタグ名です。',
         ];
