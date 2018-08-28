@@ -18,7 +18,7 @@ Route::namespace('Api\V1')->group(function () {
             Route::get('/{user_id}', 'UserController@show');
             Route::post('/', 'UserController@store');
         });
-        
+
         /*
         |------------------------------------------------------------------
         | Tag Routes
