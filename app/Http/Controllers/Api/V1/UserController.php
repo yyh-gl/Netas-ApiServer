@@ -45,7 +45,7 @@ class UserController extends ApiBaseController
         if (! $isAuthorized) {
             // TODO: エラー処理をきれいに書き直す
             return response()->json([
-                'user' => 'Not Authorized',
+                'error' => 'Not Authorized',
             ], config('const_http.STATUS_CODE.unauthorized'));
         }
 
