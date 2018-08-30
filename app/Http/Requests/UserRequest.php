@@ -26,12 +26,12 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|max:200|unique:users,user_id',
-            'name' => 'required|max:200',
-            'email' => 'required|email|max:255|unique:users,email',
-            'avatar' => 'required|max:200|unique:users,avatar',
+            'user_id'      => 'required|max:200|unique:users,user_id',
+            'name'         => 'required|max:200',
+            'email'        => 'required|email|max:255|unique:users,email',
+            'avatar'       => 'required|max:200|unique:users,avatar',
             'introduction' => 'max:200',
-            'password' => 'required|max:200',
+            'password'     => 'required|max:200',
         ];
     }
 
@@ -43,21 +43,21 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_id.required' => 'ユーザIDが未入力です。',
-            'user_id.max' => 'ユーザIDは200文字までです。',
-            'user_id.unique'  => '既に存在するユーザIDです。',
-            'name.required' => 'タグ名が未入力です。',
-            'name.max'  => 'タグ名は200文字までです。',
-            'email.required' => 'メールアドレスが未入力です。',
-            'email.email' => '不正な形式です。',
-            'email.max' => 'メールアドレスは255文字までです。',
-            'email.unique'  => '既に存在するメールアドレスです。',
-            'avatar.required' => 'アバター画像が未設定です。',
-            'avatar.max' => 'アバター画像のURLは200文字までです。',
-            'avatar.unique'  => '既に存在するアバター画像です。',
-            'introduction.max' => '紹介文は200文字までです。',
+            'user_id.required'  => 'ユーザIDが未入力です。',
+            'user_id.max'       => 'ユーザIDは200文字までです。',
+            'user_id.unique'    => '既に存在するユーザIDです。',
+            'name.required'     => 'タグ名が未入力です。',
+            'name.max'          => 'タグ名は200文字までです。',
+            'email.required'    => 'メールアドレスが未入力です。',
+            'email.email'       => '不正な形式です。',
+            'email.max'         => 'メールアドレスは255文字までです。',
+            'email.unique'      => '既に存在するメールアドレスです。',
+            'avatar.required'   => 'アバター画像が未設定です。',
+            'avatar.max'        => 'アバター画像のURLは200文字までです。',
+            'avatar.unique'     => '既に存在するアバター画像です。',
+            'introduction.max'  => '紹介文は200文字までです。',
             'password.required' => 'パスワードが未入力です。',
-            'password.max' => 'パスワードは200文字までです。',
+            'password.max'      => 'パスワードは200文字までです。',
         ];
     }
 

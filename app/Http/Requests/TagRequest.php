@@ -39,8 +39,8 @@ class TagRequest extends FormRequest
     {
         return [
             'name.required' => 'タグ名が未入力です。',
-            'name.max'  => 'タグ名は200文字までです。',
-            'name.unique'  => '既に存在するタグ名です。',
+            'name.max'      => 'タグ名は200文字までです。',
+            'name.unique'   => '既に存在するタグ名です。',
         ];
     }
 
@@ -58,7 +58,7 @@ class TagRequest extends FormRequest
 
         if (!empty($errors->get('name'))) {
             $response['error'] = [
-                'code' => config('const_request.ERROR_CODE.name'),
+                'code'  => config('const_request.ERROR_CODE.name'),
                 'error' => $errors->first('name'),
             ];
         }
