@@ -6,21 +6,18 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\ClientRepository;
 
 class UserController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Database\Eloquent\Collection users
+     * @return array users
      */
     public function index()
     {
         $users = User::all();
-        return response()->json([
-            'users' => $users,
-        ]);
+        return $this->toJson(compact('users'));
     }
 
     /**
@@ -37,16 +34,14 @@ class UserController extends ApiBaseController
      * Store a newly created resource in storage.
      *
      * @param UserRequest $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(UserRequest $request)
     {
         $isAuthorized = $this->isAuthorizedClient($request->header('ClientId'), $request->header('ClientSecret'));
         if (! $isAuthorized) {
-            // TODO: エラー処理をきれいに書き直す
-            return response()->json([
-                'error' => 'Not Authorized',
-            ], config('const_http.STATUS_CODE.unauthorized'));
+            $code = config('system.ERROR_CODE.clientUnauthorized');
+            return $this->toErrorJson($code, $request->url(), config('const_http.STATUS_CODE.unauthorized'));
         }
 
         $user = new User;
@@ -57,28 +52,19 @@ class UserController extends ApiBaseController
         $user->introduction = $request->introduction;
         $user->password     = Hash::make($request->password);
         $user->save();
-        return response()->json([
-            'user' => $user,
-        ], config('const_http.STATUS_CODE.created'));
+        return $this->toJson(compact('user'), config('const_http.STATUS_CODE.created'));
     }
 
     /**
      * Display the specified resource.
      *
      * @param $user_id
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function show($user_id)
     {
-        try {
-            $user = User::where('user_id', $user_id)->firstOrFail();
-        } catch (\Exception $e) {
-            $user = NULL;
-        }
-
-        return response()->json([
-            'user' => $user,
-        ]);
+        $user = User::where('user_id', $user_id)->first();
+        return $this->toJson(compact('user'));
     }
 
     /**
@@ -113,25 +99,6 @@ class UserController extends ApiBaseController
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * 認証済みのクライアントか判別
-     *
-     * @param  int $id
-     * @param $secretKey
-     * @return bool
-     */
-    private function isAuthorizedClient($id, $secretKey)
-    {
-        $clientClass = new ClientRepository();
-        $client = $clientClass->find($id);
-
-        if (! $client) {
-            return false;
-        } else if ($secretKey == $client->secret) {
-            return true;
-        }
     }
 
 }

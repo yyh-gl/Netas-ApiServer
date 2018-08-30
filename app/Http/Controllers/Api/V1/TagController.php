@@ -10,14 +10,12 @@ class TagController extends ApiBaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function index()
     {
         $tags = Tag::all();
-        return response()->json([
-            'tags' => $tags,
-        ]);
+        return $this->toJson(compact('tags'));
     }
 
     /**
@@ -34,7 +32,7 @@ class TagController extends ApiBaseController
      * Store a newly created resource in storage.
      *
      * @param TagRequest $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function store(TagRequest $request)
     {
@@ -42,23 +40,19 @@ class TagController extends ApiBaseController
         $tag->name = $request->name;
         $tag->followed_count = 0;
         $tag->save();
-        return response()->json([
-            'tag' => $tag,
-        ], config('const_http.STATUS_CODE.created'));
+        return $this->toJson($tag, config('const_http.STATUS_CODE.created'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return array
      */
     public function show($id)
     {
         $tag = Tag::getRecordById($id);
-        return response()->json([
-            'tag' => $tag,
-        ]);
+        return $this->toJson(compact('tag'));
     }
 
     /**
